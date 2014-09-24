@@ -3,3 +3,4 @@ Exec {
 }
 
 include adom
+include adom::shell

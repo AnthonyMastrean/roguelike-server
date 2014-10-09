@@ -5,9 +5,6 @@ class adom() {
 	$install_dir = "/usr/local/games/${id}"
 	$target = "${install_dir}/adom"
 
-	package { "wget":
-	}
-
 	exec { "download":
 		cwd => "/tmp",
 		command => "wget ${url}",

@@ -6,10 +6,7 @@ class angband() {
   $target = "${install_dir}/games/angband"
 
   include angband::deps
-
-  package { "wget":
-  }
-
+  
   exec { "download":
     cwd => "/tmp",
     command => "wget ${url}",

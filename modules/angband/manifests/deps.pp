@@ -1,8 +1,6 @@
 class angband::deps() {
 
   package { [
-    "autoconf",
-    "gcc",
     "libc6-dev",
     # "libglade2-dev",
     # "libgtk2.0-dev",
@@ -12,8 +10,7 @@ class angband::deps() {
     # "libsdl-image1.2-dev",
     # "libsdl-mixer1.2-dev",
     # "libsdl-ttf2.0-dev",
-    # "libx11-dev",
-    "make"]:
+    # "libx11-dev"]:
   }
 
 }

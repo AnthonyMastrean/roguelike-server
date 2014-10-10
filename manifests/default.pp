@@ -12,5 +12,9 @@ package { [
   require => Exec["apt-get update"],
 }
 
+group { "games":
+  ensure => present,
+}
+
 include adom
 include angband

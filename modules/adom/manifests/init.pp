@@ -1,27 +1,31 @@
 class adom() {
-	$id = "adom_linux_ubuntu_32_1.2.0_pre23"
-	$filename = "${id}.tar.gz"
-	$url = "http://www.ancardia.com/download/${filename}"
-	$install_dir = "/usr/local/games/${id}"
-	$target = "${install_dir}/adom"
+	$version = "1.2.0_pre23"
+	$token = "${name}-${id}"
 
-	exec { "download":
+	$url = "http://www.ancardia.com/download/adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
+	$archive = "adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
+	$sources = "adom"
+
+	$install = "/usr/local/games/${id}"
+	$target = "${install}/adom"
+
+	exec { "wget ${token}":
 		cwd => "/tmp",
 		command => "wget ${url}",
-		creates => "/tmp/${filename}",
+		creates => "/tmp/${archive}",
 		require => Package["wget"],
 	}
 
-	exec { "unpack":
+	exec { "extract ${token}":
 		cwd => "/tmp",
-		command => "tar --extract --gzip --verbose --file ${filename}",
-		creates => "/tmp/adom",
-		require => Exec["download"],
+		command => "tar --extract --gzip --verbose --file ${archive}",
+		creates => "/tmp/${sources}",
+		require => Exec["wget ${token}"],
 	}
 
-	exec { "install":
-		command => "mv /tmp/adom ${install_dir}",
-		creates => $install_dir,
-		require => Exec["unpack"],
+	exec { "install ${token}":
+		command => "mv /tmp/${sources} ${install}",
+		creates => $install,
+		require => Exec["extract ${token}"],
 	}
 }

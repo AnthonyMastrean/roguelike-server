@@ -1,30 +1,34 @@
 class angband() {
-  $id = "angband-v3.5.0"
-  $filename = "${id}.tar.gz"
-  $url = "http://rephial.org/downloads/3.5/${filename}"
-  $install_dir = "/usr/local/games/${id}"
-  $target = "${install_dir}/games/angband"
+  $version = "3.5.0"
+  $token = "${name}-${version}"
 
-  include angband::deps
+  $url = "http://rephial.org/downloads/3.5/angband-v3.5.0.tar.gz"
+  $archive = "angband-v3.5.0.tar.gz"
+  $sources = "angband-v3.5.0"
+
+  $install = "/usr/local/games/${token}"
+  $target = "${install}/games/angband"
+
+  require angband::deps
   
-  exec { "download":
+  exec { "wget ${token}":
     cwd => "/tmp",
     command => "wget ${url}",
-    creates => "/tmp/${filename}",
+    creates => "/tmp/${archive}",
     require => Package["wget"],
   }
 
-  exec { "unpack":
+  exec { "extract ${token}":
     cwd => "/tmp",
-    command => "tar --extract --gzip --verbose --file ${filename}",
-    creates => "/tmp/${id}",
-    require => Exec["download"],
+    command => "tar --extract --gzip --verbose --file ${archive}",
+    creates => "/tmp/${sources}",
+    require => Exec["wget ${token}"],
   }
 
-  exec { "install":
-    cwd => "/tmp/${id}",
-    command => "bash -c './configure --prefix ${install_dir} && make && make install'",
-    creates => $install_dir,
-    require => [Class["Angband::Deps"], Exec["unpack"]],
+  exec { "make install ${token}":
+    cwd => "/tmp/${sources}",
+    command => "bash -c './configure --prefix ${install} && make && make install'",
+    creates => $install,
+    require => Exec["extract ${token}"],
   }
 }

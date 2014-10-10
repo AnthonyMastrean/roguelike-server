@@ -1,12 +1,12 @@
 class adom() {
 	$version = "1.2.0_pre23"
-	$token = "${name}-${id}"
+	$token = "${name}-${version}"
 
 	$url = "http://www.ancardia.com/download/adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
 	$archive = "adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
 	$sources = "adom"
 
-	$install = "/usr/local/games/${id}"
+	$install = "/usr/local/games/${token}"
 	$target = "${install}/adom"
 
 	exec { "wget ${token}":

@@ -1,8 +1,8 @@
 define roguelike::shell(
   $user = $title,
-  $password = $title,
+  $password = $user,
   $group = "games",
-  $shell = undef,
+  $shell = $title,
 ) {
 
   user { $user:

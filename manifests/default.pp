@@ -18,3 +18,13 @@ group { "games":
 
 include adom
 include angband
+
+roguelike::shell { "adom":
+  shell => $adom::target,
+  require => Class["adom"],
+}
+
+roguelike::shell { "angband":
+  shell => $angband::target,
+  require => Class["angband"],
+}

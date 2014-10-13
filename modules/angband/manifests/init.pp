@@ -9,8 +9,6 @@ class angband() {
   $install = "/usr/local/games/${token}"
   $target = "${install}/games/angband"
 
-  include roguelike
-
   require angband::deps
   
   exec { "wget ${token}":

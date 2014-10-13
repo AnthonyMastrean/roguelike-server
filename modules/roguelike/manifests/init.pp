@@ -2,6 +2,7 @@ define roguelike(
   $user = $title,
   $password = $user,
   $group = "games",
+  $shell = $undef,
 ) {
 
   user { $user:

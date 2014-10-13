@@ -18,3 +18,6 @@ group { "games":
 
 include adom
 include angband
+
+package { ["angband", "crawl"]:
+}

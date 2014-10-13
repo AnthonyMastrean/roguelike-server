@@ -7,8 +7,6 @@ class adom() {
 
 	exec { "wget ${token}":
 		cwd => "/tmp",
-		user => $name,
-		group => "games",
 		command => "wget -O ${token}.tar.gz ${url}",
 		creates => "/tmp/${token}.tar.gz",
 		require => Package["wget"],
@@ -16,20 +14,24 @@ class adom() {
 
 	exec { "extract ${token}":
 		cwd => "/tmp",
-		user => $name,
-		group => "games",
 		command => "tar --extract --gzip --verbose --file ${token}.tar.gz",
 		creates => "/tmp/adom",
 		require => Exec["wget ${token}"],
 	}
 
 	exec { "install ${token}":
-		user => $name,
-		group => "games",
 		command => "mv /tmp/adom ${install}",
 		creates => $install,
 		require => Exec["extract ${token}"],
 	}
+
+  file { $install:
+    ensure => directory,
+    recurse => true,
+    owner => $name,
+    gid => "games",
+    require => Exec["install ${token}"],
+  }
 
   user { $name:
     gid => "games",

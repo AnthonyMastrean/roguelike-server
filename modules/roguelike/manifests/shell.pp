@@ -23,6 +23,8 @@ define roguelike::shell(
 
   file { "/home/${user}/.hushlogin":
     ensure => present,
+    owner => $user,
+    group => $group,
     require => File["/home/${user}"],
   }
 

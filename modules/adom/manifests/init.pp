@@ -31,6 +31,14 @@ class adom() {
 		require => Exec["extract ${token}"],
 	}
 
+	file { $install:
+		ensure => directory,
+		recurse => true,
+		owner => $name,
+		group => "games",
+		require => Exec["install ${token}"],
+	}
+
 	roguelike { $name:
 	  shell => $target,
 	  require => Exec["install ${token}"],

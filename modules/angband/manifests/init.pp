@@ -9,6 +9,8 @@ class angband() {
   $install = "/usr/local/games/${token}"
   $target = "${install}/games/angband"
 
+  include roguelike
+
   require angband::deps
   
   exec { "wget ${token}":
@@ -25,10 +27,16 @@ class angband() {
     require => Exec["wget ${token}"],
   }
 
-  exec { "make install ${token}":
+  exec { "install ${token}":
     cwd => "/tmp/${sources}",
     command => "bash -c './configure --prefix ${install} && make && make install'",
     creates => $install,
     require => Exec["extract ${token}"],
   }
+
+  roguelike { $name:
+    shell => $target,
+    require => Exec["install ${token}"],
+  }
+
 }

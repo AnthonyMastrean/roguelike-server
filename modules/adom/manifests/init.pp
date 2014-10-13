@@ -9,6 +9,8 @@ class adom() {
 	$install = "/usr/local/games/${token}"
 	$target = "${install}/adom"
 
+	include roguelike
+
 	exec { "wget ${token}":
 		cwd => "/tmp",
 		command => "wget ${url}",
@@ -28,4 +30,10 @@ class adom() {
 		creates => $install,
 		require => Exec["extract ${token}"],
 	}
+
+	roguelike { $name:
+	  shell => $target,
+	  require => Exec["install ${token}"],
+	}
+
 }

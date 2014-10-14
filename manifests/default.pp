@@ -2,8 +2,8 @@ Exec {
 	path => ["/bin", "/usr/bin"],
 }
 
-# exec { "apt-get update":
-# }
+exec { "apt-get update":
+}
 
 # package { [
 #   "make",
@@ -16,14 +16,16 @@ group { "games":
 }
 
 package { ["angband", "crawl"]:
+  require => Exec["apt-get update"],
 }
 
 roguelike::shell { "angband":
-  shell => "/usr/games/angband",
+  game => "/usr/games/angband",
+  args => "-mgcu",
   require => Package["angband"],
 }
 
 roguelike::shell { "crawl":
-  shell => "/usr/games/crawl",
+  game => "/usr/games/crawl",
   require => Package["crawl"],
 }

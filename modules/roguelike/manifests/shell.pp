@@ -1,29 +1,50 @@
 define roguelike::shell(
   $user = $title,
-  $shell = undef,
+  $password = sha1("Roguelik3"),
+  $group = "games",
+  $game = undef,
+  $args = undef,
 ) {
 
-  user { $user:
-    gid => "games",
-    password => sha1($user),
-    managehome => true,
-    home => "/home/${user}",
-    shell => $shell,
-    require => Group["games"],
+  $home = "/home/${user}"
+  $hush = "/home/${user}/.hushlogin"
+  $shim = "/home/${user}/.shell"
+
+  $shell = $args ? {
+    undef => $game,
+    default => $shim,
   }
 
-  file { "/home/${user}":
-    ensure => directory,
+  File {
     owner => $user,
-    group => "games",
+    group => $group,
+  }
+
+  if $args {
+    file { $shim:
+      mode => "u+x",
+      content => "${game} ${args}",
+      require => File[$home],
+    }
+  }
+
+  user { $user:
+    gid => $group,
+    password => $password,
+    managehome => true,
+    home => $home,
+    shell => $shell,
+    require => Group[$group],
+  }
+
+  file { $home:
+    ensure => directory,
     require => User[$user],
   }
 
-  file { "/home/${user}/.hushlogin":
+  file { $hush:
     ensure => present,
-    owner => $user,
-    group => "games",
-    require => File["/home/${user}"],
+    require => File[$home],
   }
 
 }

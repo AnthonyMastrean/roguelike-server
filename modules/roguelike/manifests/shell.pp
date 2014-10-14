@@ -1,6 +1,6 @@
 define roguelike::shell(
   $user = $title,
-  $password = sha1("Roguelik3"),
+  $password = undef,
   $group = "games",
   $game = undef,
   $args = undef,
@@ -23,7 +23,7 @@ define roguelike::shell(
   if $args {
     file { $shim:
       mode => "u+x",
-      content => "${game} ${args}",
+      content => "#!/bin/sh\n\n${game} ${args}\n",
       require => File[$home],
     }
   }

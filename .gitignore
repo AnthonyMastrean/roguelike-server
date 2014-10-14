@@ -1,3 +1,6 @@
 .vagrant
+
+ssh-config
+
 *.tar.gz
 *.sublime-workspace

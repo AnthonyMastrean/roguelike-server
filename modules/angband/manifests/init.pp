@@ -27,36 +27,5 @@ class angband() {
     creates => $install,
     require => Exec["extract ${token}"],
   }
-
-  file { $install:
-    ensure => directory,
-    recurse => true,
-    owner => $name,
-    gid => "games",
-    require => Exec["install ${token}"],
-  }
-
-  user { $name:
-    gid => "games",
-    password => sha1($name),
-    managehome => true,
-    home => "/home/${name}",
-    shell => $target,
-    require => Group["games"],
-  }
-
-  file { "/home/${name}":
-    ensure => directory,
-    owner => $name,
-    group => "games",
-    require => User[$name],
-  }
-
-  file { "/home/${name}/.hushlogin":
-    ensure => present,
-    owner => $name,
-    group => "games",
-    require => File["/home/${name}"],
-  }
-
+  
 }

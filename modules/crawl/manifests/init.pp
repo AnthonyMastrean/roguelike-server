@@ -1,16 +1,9 @@
 class crawl() {
-
-  user { $name:
-    gid => "games",
-    password => sha1($name),
-    managehome => true,
-    home => "/home/${name}",
-    shell => $target,
-    require => Group["games"],
-  }
+  $version = "0.15"
+  $token = "${name}-${version}"
 
   file { "${token}.list":
-    path => "/etc/apt/sources.list.d/${token].list",
+    path => "/etc/apt/sources.list.d/${name}.list",
     owner => root,
     group => root,
     mode => "a=r,u+w",
@@ -18,10 +11,14 @@ class crawl() {
     notify => Exec["apt-get update"],
   }
 
-  exec { "":
+  exec { "wget crawl.develz.org":
     command => "wget http://crawl.develz.org/debian/pubkey -O - | apt-key add -",
-    require => File["${token}.list"],
     notify => Exec["apt-get update"],
+    require => File["${name}.list"],
+  }
+
+  package { "crawl":
+    require => Exec["wget crawl.develz.org"],
   }
 
 }

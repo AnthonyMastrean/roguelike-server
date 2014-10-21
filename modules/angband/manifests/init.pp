@@ -1,9 +1,14 @@
 class angband() {
+  $url = "http://rephial.org/downloads/3.5/angband-v3.5.0.tar.gz"
+  
   $version = "3.5.0"
-  $token = "${name}-${version}"
+  $package = "${name}-${version}"
+
+  $archive = "/tmp/angband-v3.5.0.tar.gz"
+  $source = "/tmp/angband-v3.5.0"
   $target = "/usr/local/games/angband"
 
-  $dependencies => [
+  $dependencies = [
     # "libglade2-dev"
     # "libgtk2.0-dev"
     # "libsdl1.2-dev"
@@ -27,17 +32,17 @@ class angband() {
     target => $archive,
   }
 
-  archive::extract { $token:
-    source => "/tmp/${token}.tar.gz",
+  archive::extract { $package:
+    source => $archive,
     target => "/tmp",
-    root => "angband-v3.5.0",
-    require => Wget::Fetch[$token],
+    creates => $source,
+    require => Wget::Fetch[$package],
   }
 
   make::install { $package:
     source => $source,
     configure => true,
-    target => $target,
+    creates => $target,
     require => [Archive::Extract[$package], Package[$dependencies]],
   }
 

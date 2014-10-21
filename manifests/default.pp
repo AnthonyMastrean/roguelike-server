@@ -1,15 +1,7 @@
-Exec { 
-	path => ["/bin", "/usr/bin"],
-}
-
-exec { "apt-get update":
-}
-
 group { "games":
 }
 
 package { ["angband", "crawl"]:
-  require => Exec["apt-get update"],
 }
 
 roguelike::shell { "angband":

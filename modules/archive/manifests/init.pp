@@ -1,0 +1,6 @@
+class archive() {
+  
+  package { "tar":
+  }
+
+}

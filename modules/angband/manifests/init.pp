@@ -1,16 +1,30 @@
 class angband() {
   $version = "3.5.0"
   $token = "${name}-${version}"
-  $install = "/usr/local/games/${token}"
-  $target = "${install}/games/angband"
+  $target = "/usr/local/games/angband"
+
+  $dependencies => [
+    # "libglade2-dev"
+    # "libgtk2.0-dev"
+    # "libsdl1.2-dev"
+    # "libsdl-image1.2-dev"
+    # "libsdl-mixer1.2-dev"
+    # "libsdl-ttf2.0-dev"
+    # "libx11-dev"
+    "libc6-dev",
+    "libncurses5-dev",
+    "libncursesw5-dev"],
 
   include archive
+  include make
   include wget
-  # include angband::deps
   
-  wget::fetch { $token:
-    url => "http://rephial.org/downloads/3.5/angband-v3.5.0.tar.gz",
-    target => "/tmp/${token}.tar.gz",
+  package { $dependencies: 
+  }
+
+  wget::fetch { $package:
+    url => $url,
+    target => $archive,
   }
 
   archive::extract { $token:
@@ -20,11 +34,11 @@ class angband() {
     require => Wget::Fetch[$token],
   }
 
-  # exec { "install ${token}":
-  #   cwd => "/tmp/angband-v3.5.0",
-  #   command => "bash -c './configure --prefix ${install} && make && make install'",
-  #   creates => $install,
-  #   require => Exec["extract ${token}"],
-  # }
-  
+  make::install { $package:
+    source => $source,
+    configure => true,
+    target => $target,
+    require => [Archive::Extract[$package], Package[$dependencies]],
+  }
+
 }

@@ -5,12 +5,6 @@ Exec {
 exec { "apt-get update":
 }
 
-# package { [
-#   "make",
-#   "gcc"]:
-#   require => Exec["apt-get update"],
-# }
-
 group { "games":
 }
 

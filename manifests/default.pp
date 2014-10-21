@@ -7,8 +7,7 @@ exec { "apt-get update":
 
 # package { [
 #   "make",
-#   "gcc",
-#   "wget"]:
+#   "gcc"]:
 #   require => Exec["apt-get update"],
 # }
 

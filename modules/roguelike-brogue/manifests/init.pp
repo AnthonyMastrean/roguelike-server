@@ -1,4 +1,4 @@
-class brogue() {
+class roguelike-brogue() {
   $url = "https://sites.google.com/site/broguegame/brogue-1.7.4-linux-i386.tbz2"
 
   $version = "1.7.4"

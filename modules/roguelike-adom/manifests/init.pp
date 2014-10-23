@@ -1,4 +1,4 @@
-class adom() {
+class roguelike-adom() {
 	$url = "http://www.ancardia.com/download/adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
 
 	$version = "1.2.0_pre23"

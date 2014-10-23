@@ -1,6 +1,10 @@
 group { "games":
 }
 
+exec { "apt-get update":
+  path => ["/usr/bin"],
+}
+
 package { ["angband", "crawl"]:
 }
 

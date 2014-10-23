@@ -7,15 +7,20 @@ define make::install(
 
   include make
 
-  $command = $configure ? {
-    true => "./configure && make ${label}",
-    false => "make ${label}",
+  $configure_part = $configure ? {
+    true => "./configure &&",
+    false => "",
+  }
+
+  $make_part = $label ? {
+    install => "make && make ${label}",
+    default => "make ${label}",
   }
 
   exec { "make ${source}":
     path => ["/bin", "/usr/bin"],
     cwd => $source,
-    command => "bash -c '${command}'",
+    command => "bash -c '${configure_part}${make_part}'",
     creates => $creates,
     require => Class["make"],
   }

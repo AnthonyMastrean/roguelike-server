@@ -9,34 +9,32 @@ class roguelike-brogue() {
   $target = "/tmp/brogue-1.7.4/bin/brogue"
   $link = "/usr/local/games/brogue"
 
-  include archive
-  include make
-  include wget
+  include roguelike
 
-  wget::fetch { $package:
+  roguelike::fetch { $package:
     url => $url,
     target => $archive,
   }
 
-  archive::extract { $package:
+  roguelike::extract { $package:
     source => $archive,
     archive => bzip2,
     target => "/tmp",
     creates => $source,
-    require => Wget::Fetch[$package],
+    require => Roguelike::Fetch[$package],
   }
 
-  make::install { $package:
+  roguelike::make { $package:
     source => $source,
     label => curses,
     creates => $target,
-    require => Archive::Extract[$package],
+    require => Roguelike::Extract[$package],
   }
 
   file { $link:
     ensure => link,
     target => $target,
-    require => Make::Install[$package],
+    require => Roguelike::Make[$package],
   }
   
 }

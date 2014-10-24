@@ -7,21 +7,20 @@ class roguelike-adom() {
 	$archive = "/tmp/adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
 	$target = "/usr/local/games/adom"
 
-	include archive
-	include wget
+	include roguelike
 
-	wget::fetch { $package:
+	roguelike::fetch { $package:
 		url => $url,
 		target => $archive,
 	}
 
-	archive::extract { $package:
+	roguelike::extract { $package:
 		source => $archive,
 		target => "/usr/local/games",
 		pathname => "adom/adom",
 		strip_path => 1,
 		creates => $target,
-		require => Wget::Fetch[$package],
+		require => Roguelike::Fetch[$package],
 	}
 
 }

@@ -1,6 +1,10 @@
-class roguelike(
+class roguelike() {
 
-) {
-
+  package { [
+    "gcc",
+    "make",
+    "tar",
+    "wget",
+  ]:}
 
 }

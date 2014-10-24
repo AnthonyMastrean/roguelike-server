@@ -1,11 +1,11 @@
-define make::install(
+define roguelike::make(
   $source = $title,
   $configure = false,
   $label = install,
   $creates = undef,
 ) {
 
-  include make
+  include roguelike
 
   $configure_part = $configure ? {
     true => "./configure &&",
@@ -22,7 +22,7 @@ define make::install(
     cwd => $source,
     command => "bash -c '${configure_part}${make_part}'",
     creates => $creates,
-    require => Class["make"],
+    require => Class["roguelike"],
   }
 
 }

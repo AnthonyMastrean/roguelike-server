@@ -20,30 +20,28 @@ class roguelike-angband() {
     "libncurses5-dev",
     "libncursesw5-dev"]
 
-  include archive
-  include make
-  include wget
+  include roguelike
   
   package { $dependencies: 
   }
 
-  wget::fetch { $package:
+  roguelike::fetch { $package:
     url => $url,
     target => $archive,
   }
 
-  archive::extract { $package:
+  roguelike::extract { $package:
     source => $archive,
     target => "/tmp",
     creates => $source,
-    require => Wget::Fetch[$package],
+    require => Roguelike::Fetch[$package],
   }
 
-  make::install { $package:
+  roguelike::make { $package:
     source => $source,
     configure => true,
     creates => $target,
-    require => [Archive::Extract[$package], Package[$dependencies]],
+    require => [Roguelike::Extract[$package], Package[$dependencies]],
   }
 
 }

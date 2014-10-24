@@ -1,6 +1,0 @@
-class wget() {
-
-  package { "wget":
-  }
-
-}

@@ -19,6 +19,7 @@ class roguelike-crawl() {
   exec { "wget crawl.develz.org":
     path => ["/bin", "/usr/bin"],
     command => "bash -c 'wget http://crawl.develz.org/debian/pubkey -O - | apt-key add -'",
+    unless => "bash -c 'apt-key list | grep crawl.develz.org'",
     require => File["crawl.list"],
     notify => Exec["crawl update"],
   }

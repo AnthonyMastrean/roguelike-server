@@ -1,9 +1,6 @@
 class roguelike-angband() {
+  $package = "angband-3.5.0"
   $url = "http://rephial.org/downloads/3.5/angband-v3.5.0.tar.gz"
-  
-  $version = "3.5.0"
-  $package = "${name}-${version}"
-
   $archive = "/tmp/angband-v3.5.0.tar.gz"
   $source = "/tmp/angband-v3.5.0"
   $target = "/usr/local/games/angband"

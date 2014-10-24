@@ -1,9 +1,6 @@
 class roguelike-brogue() {
+  $package = "brogue-1.7.4"
   $url = "https://sites.google.com/site/broguegame/brogue-1.7.4-linux-i386.tbz2"
-
-  $version = "1.7.4"
-  $package = "${name}-${version}"
-
   $archive = "/tmp/brogue-1.7.4-linux-i386.tbz2"
   $source = "/tmp/brogue-1.7.4"
   $target = "/tmp/brogue-1.7.4/bin/brogue"

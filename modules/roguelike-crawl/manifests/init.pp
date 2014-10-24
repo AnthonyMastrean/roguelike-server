@@ -1,6 +1,5 @@
 class roguelike-crawl() {
-  $version = "0.15"
-  $package = "${name}-${version}"
+  $package = "crawl-0.15"
   $target = "/usr/games/crawl"
 
   exec { "crawl update":

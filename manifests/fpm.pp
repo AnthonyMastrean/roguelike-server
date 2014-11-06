@@ -4,13 +4,17 @@ exec { "apt-get update":
 
 Exec["apt-get update"] -> Package<| |>
 
-
-package { ["gcc", "make", "rpm"]:
+package { [
+  "gcc", 
+  "make", 
+  "rpm",
+  "tar",
+  "wget"]:
 }
 
 file { ".gemrc":
   path => "/home/vagrant/.gemrc",
-  content => "gem: --no-document\n",
+  content => "gem: --no-document\ngem: --no-rdoc --no-ri\n",
 }
 
 package { "ruby-dev":

@@ -1,15 +1,15 @@
-define roguelike::fetch(
+define quux::fetch(
   $url = $title,
   $target,
 ) {
 
-  include roguelike
+  include quux
 
   exec { "wget ${url}":
     path => ["/usr/bin"],
     command => "wget --output-document='${target}' ${url}",
     creates => $target,
-    require => Class["roguelike"],
+    require => Class["quux"],
   }
 
 }

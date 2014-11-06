@@ -1,4 +1,4 @@
-define roguelike::extract(
+define quux::extract(
   $source,
   $target,
   $archive = gzip,
@@ -7,13 +7,13 @@ define roguelike::extract(
   $strip_path = 0,
 ) {
 
-  include roguelike
+  include quux
 
   exec { "extract ${source}":
     path => ["/bin"],
     command => "tar --extract --${archive} --file='${source}' --directory='${target}' --strip-components=${strip_path} ${pathname}",
     creates => $creates,
-    require => Class["roguelike"],
+    require => Class["quux"],
   }
 
 }

@@ -1,11 +1,11 @@
-define roguelike::make(
+define quux::make(
   $source = $title,
   $configure = false,
   $label = install,
   $creates = undef,
 ) {
 
-  include roguelike
+  include quux
 
   $configure_part = $configure ? {
     true => "./configure &&",
@@ -22,7 +22,7 @@ define roguelike::make(
     cwd => $source,
     command => "bash -c '${configure_part}${make_part}'",
     creates => $creates,
-    require => Class["roguelike"],
+    require => Class["quux"],
   }
 
 }

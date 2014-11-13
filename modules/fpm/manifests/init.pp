@@ -1,12 +1,12 @@
 class fpm() {
 
-  package { ["ruby-dev", "rpm", "make"]:
-  }
+  include fpm::deps
 
   exec { "gem install fpm":
     path => ["/opt/vagrant_ruby/bin"],
     command => "gem install fpm --no-rdoc --no-ri",
-    require => Package["ruby-dev"],
+    creates => "/opt/vagrant_ruby/bin/fpm",
+    require => Class["fpm::deps"],
   }
 
 }

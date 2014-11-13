@@ -28,8 +28,8 @@ class fpm-adom() {
     require => Quux::Fetch[$nonce],
   }
 
-  # fpm -t rpm -s dir --name "adom" --version 1.2.0_pre23 --architecture i386 ./adom/adom=/usr/games/adom ./adom/docs/=/usr/share/doc/adom ./adom/licenses=/usr/share/doc/adom
   fpm::exec { $nonce:
+    cwd => "/vagrant/packages",
     output => rpm,
     source => dir,
     package => $package,

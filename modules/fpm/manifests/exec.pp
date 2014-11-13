@@ -1,4 +1,5 @@
 define fpm::exec(
+  $cwd = undef,
   $output,
   $source,
   $package = undef,
@@ -8,6 +9,8 @@ define fpm::exec(
 ){
 
   include fpm
+
+  $nonce = "${package}-${version}"
 
   $name_part = $package ? {
     undef => "",
@@ -24,9 +27,10 @@ define fpm::exec(
     default => " --architecture ${architecture}",
   }
 
-  exec { "":
-    path => ["/opt/vagrant_ruby/bin"],
-    command => "fpm -t ${output} -s ${source}${name_part}${version_part}${architecture_part}${args}",
+  exec { "fpm ${nonce}":
+    path => ["/usr/bin", "/opt/vagrant_ruby/bin"],
+    cwd => $cwd,
+    command => "fpm --force -t ${output} -s ${source}${name_part}${version_part}${architecture_part}${args}",
     require => Class["fpm"],
   }
 

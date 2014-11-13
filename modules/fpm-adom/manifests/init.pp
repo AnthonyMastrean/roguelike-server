@@ -7,6 +7,7 @@ class fpm-adom() {
   $url = "http://www.ancardia.com/download/adom_linux_ubuntu_32_1.2.0_pre23.tar.gz"
   $archive = "/tmp/${nonce}.tar.gz"
   $source = "/tmp/${nonce}"
+  $searchdir = "/tmp/${nonce}/adom"
 
   include fpm
   include quux
@@ -23,8 +24,7 @@ class fpm-adom() {
   quux::extract { $nonce:
     source => $archive,
     target => $source,
-    strip_path => 1,
-    creates => "${source}/adom",
+    creates => $searchdir,
     require => Quux::Fetch[$nonce],
   }
 
@@ -35,10 +35,11 @@ class fpm-adom() {
     package => $package,
     version => $version,
     architecture => $architecture,
+    searchdir => $searchdir,
     args => [
-      " ${source}/adom=/usr/games/adom", 
-      " ${source}/docs/=/usr/share/doc/adom", 
-      " ${source}/licenses=/usr/share/doc/adom"
+      " adom=/usr/games/adom", 
+      " docs/=/usr/share/doc/adom", 
+      " licenses=/usr/share/doc/adom",
     ],
     require => Quux::Extract[$nonce],
   }

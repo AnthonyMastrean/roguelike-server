@@ -5,9 +5,10 @@ exec { "apt-get update":
 Exec["apt-get update"] -> Package<| |>
 
 package { [
-  "gcc", 
+	"gcc",
+  "rpm",
+	"ruby-dev",
+	"make",
   "tar",
   "wget"]:
 }
-
-include fpm

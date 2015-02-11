@@ -1,15 +1,12 @@
-define quux::fetch(
-  $url = $title,
+define fpm::fetch(
   $target,
+  $url = $title,
 ) {
 
-  include quux
-
   exec { "wget ${url}":
-    path => ["/usr/bin"],
+    path    => ["/usr/bin"],
     command => "wget --output-document='${target}' ${url}",
     creates => $target,
-    require => Class["quux"],
   }
 
 }

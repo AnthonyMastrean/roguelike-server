@@ -1,5 +1,8 @@
-PUPPET = FileList.new("manifests/*.pp", "modules/**/*.pp")
+PUPPET = FileList["manifests/*.pp", "modules/**/*.pp"]
 
-task :default do
-  system("puppet-lint #{PUPPET}") || fail()
+task :default => [:lint]
+
+desc "Check manifests & modules"
+task :lint do
+	system("puppet-lint --with-context --with-filename --fail-on-warnings --no-80chars-check #{PUPPET}") || fail()
 end

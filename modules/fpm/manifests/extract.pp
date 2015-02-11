@@ -1,19 +1,16 @@
-define quux::extract(
+define fpm::extract(
   $source,
   $target,
-  $archive = gzip,
-  $creates = undef,
-  $pathname = undef,
+  $archive    = gzip,
   $strip_path = 0,
+  $creates    = undef,
+  $pathname   = undef,
 ) {
 
-  include quux
-
   exec { "extract ${source}":
-    path => ["/bin"],
+    path    => ["/bin"],
     command => "tar --extract --${archive} --file='${source}' --directory='${target}' --strip-components=${strip_path} ${pathname}",
     creates => $creates,
-    require => Class["quux"],
   }
 
 }

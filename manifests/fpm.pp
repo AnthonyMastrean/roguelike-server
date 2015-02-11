@@ -1,14 +1,14 @@
-exec { "apt-get update":
-  path => ["/usr/bin"],
+exec { 'apt-get update':
+  path => ['/usr/bin'],
 }
 
-Exec["apt-get update"] -> Package<| |>
+Exec['apt-get update'] -> Package<| |>
 
 package { [
-	"gcc",
-  "rpm",
-	"ruby-dev",
-	"make",
-  "tar",
-  "wget"]:
+  'gcc',
+  'rpm',
+  'ruby-dev',
+  'make',
+  'tar',
+  'wget']:
 }

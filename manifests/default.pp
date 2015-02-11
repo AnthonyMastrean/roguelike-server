@@ -1,22 +1,22 @@
-group { "games":
+exec { 'apt-get update':
+  path => ['/usr/bin'],
 }
 
-exec { "apt-get update":
-  path => ["/usr/bin"],
+Exec['apt-get update'] -> Package<| |>
+
+group { 'games':
 }
 
-Exec["apt-get update"] -> Package<| |>
-
-package { ["angband", "crawl"]:
+package { ['angband', 'crawl']:
 }
 
-roguelike::shell { "angband":
-  game => "/usr/games/angband",
-  args => "-mgcu",
-  require => Package["angband"],
+roguelike::shell { 'angband':
+  game    => '/usr/games/angband',
+  args    => '-mgcu',
+  require => Package['angband'],
 }
 
-roguelike::shell { "crawl":
-  game => "/usr/games/crawl",
-  require => Package["crawl"],
+roguelike::shell { 'crawl':
+  game    => '/usr/games/crawl',
+  require => Package['crawl'],
 }

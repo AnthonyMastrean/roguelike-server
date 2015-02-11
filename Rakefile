@@ -1,8 +1,12 @@
-PUPPET = FileList["manifests/*.pp", "modules/**/*.pp"]
+PUPPET     = FileList["manifests/*.pp", "modules/**/*.pp"]
+
+LINT_RULES = ["--no-80chars-check", "--no-documentation-check"]
+LINT_OPTS  = ["--with-context", "--with-filename"]
 
 task :default => [:lint]
 
 desc "Check manifests & modules"
-task :lint do
-	system("puppet-lint --with-context --with-filename --fail-on-warnings --no-80chars-check #{PUPPET}") || fail()
+task :lint, [:name] do |task, args|
+	args.with_defaults(:name => "#{PUPPET}")
+	system("puppet-lint --fail-on-warnings #{LINT_OPTS.join(" ")} #{LINT_RULES.join(" ")} #{args.name}") || fail()
 end

@@ -6,8 +6,8 @@ define fpm::make(
 ) {
 
   $configure_part = $configure ? {
-    true  => "./configure &&",
-    false => "",
+    true  => './configure && ',
+    false => '',
   }
 
   $make_part = $label ? {
@@ -16,9 +16,9 @@ define fpm::make(
   }
 
   exec { "make ${source}":
-    path    => ["/bin", "/usr/bin"],
+    path    => ['/bin', '/usr/bin'],
     cwd     => $source,
-    command => "bash -c '${configure_part} ${make_part}'",
+    command => "bash -c '${configure_part}${make_part}'",
     creates => $creates,
   }
 

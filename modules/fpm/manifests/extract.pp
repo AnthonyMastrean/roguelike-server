@@ -8,8 +8,8 @@ define fpm::extract(
 ) {
 
   exec { "extract ${source}":
-    path    => ["/bin"],
-    command => "tar --extract --${archive} --file='${source}' --directory='${target}' --strip-components=${strip_path} ${pathname}",
+    path    => ['/bin'],
+    command => "tar --extract --${archive} --file ${source} --directory ${target} --strip-components ${strip_path} ${pathname}",
     creates => $creates,
   }
 

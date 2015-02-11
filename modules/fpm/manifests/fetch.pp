@@ -4,8 +4,8 @@ define fpm::fetch(
 ) {
 
   exec { "wget ${url}":
-    path    => ["/usr/bin"],
-    command => "wget --output-document='${target}' ${url}",
+    path    => ['/usr/bin'],
+    command => "wget --output-document ${target} ${url}",
     creates => $target,
   }
 

@@ -32,7 +32,7 @@ define fpm::exec(
   }
 
   exec { "fpm ${nonce}":
-    path    => ['/usr/bin', '/opt/vagrant_ruby/bin'],
+    path    => ['/usr/bin'],
     cwd     => $cwd,
     command => "fpm --force -t ${output} -s ${source}${name_part}${version_part}${architecture_part}${searchdir_part}${args}",
   }

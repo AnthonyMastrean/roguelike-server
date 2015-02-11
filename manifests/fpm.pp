@@ -6,23 +6,25 @@ exec { 'apt-update':
 }
 
 exec { 'gem install bundler':
-	path    => ['/usr/bin', '/opt/vagrant_ruby/bin'],
-	require => [
-		File['/etc/gemrc'],
-		Package['ruby-dev'],
-	],
+  path    => ['/usr/bin'],
+  require => [
+    File['/etc/gemrc'],
+    Package['ruby', 'rubygems'],
+  ],
 }
 
 file { '/etc/gemrc':
-	ensure  => present,
-	owner   => root,
-	group   => root,
-	content => "gem: --no-rdoc --no-ri\n",
+  ensure  => present,
+  owner   => root,
+  group   => root,
+  content => "gem: --no-rdoc --no-ri\n",
 }
 
 package { [
   'gcc',
   'rpm',
+  'ruby',
+  'rubygems',
   'ruby-dev',
   'make',
   'tar',

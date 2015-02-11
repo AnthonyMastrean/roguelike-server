@@ -2,7 +2,7 @@ class fpm_adom() {
 
   $package      = 'adom'
   $version      = '1.2.0_pre23'
-  $architecture = 'i386'
+  $architecture = 'x86_64'
   $nonce        = "${package}-${version}-${architecture}"
   $url          = 'http://www.ancardia.com/download/adom_linux_ubuntu_64_1.2.0_pre23.tar.gz'
   $archive      = "/tmp/${nonce}.tar.gz"

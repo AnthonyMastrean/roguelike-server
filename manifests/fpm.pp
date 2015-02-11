@@ -11,4 +11,5 @@ package { [
   'make',
   'tar',
   'wget']:
+  ensure => latest,
 }

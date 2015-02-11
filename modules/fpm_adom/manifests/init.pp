@@ -2,13 +2,14 @@ class fpm_adom() {
 
   $package      = 'adom'
   $version      = '1.2.0_pre23'
-  $nonce        = "${package}-${version}"
+  $architecture = 'x86_64'
+  $nonce        = "${package}-${version}-${architecture}"
   $output       = 'rpm'
-  $source       = 'dir'
+  $input        = 'dir'
   $url          = 'http://www.ancardia.com/download/adom_linux_ubuntu_64_1.2.0_pre23.tar.gz'
   $cwd          = '/tmp/packages'
   $archive      = "/tmp/downloads/${nonce}.tar.gz"
-  $source       = "/tmp/${nonce}"
+  $workingdir   = "/tmp/${nonce}"
   $searchdir    = "/tmp/${nonce}/adom"
   $args         = [
     ' adom=/usr/games/adom',
@@ -16,9 +17,7 @@ class fpm_adom() {
     ' licenses=/usr/share/doc/adom',
   ]
 
-  include fpm
-
-  file { $source:
+  file { $workingdir:
     ensure => directory,
   }
 
@@ -29,20 +28,21 @@ class fpm_adom() {
 
   fpm::extract { $nonce:
     source  => $archive,
-    target  => $source,
+    target  => $workingdir,
     creates => $searchdir,
     require => Fpm::Fetch[$nonce],
   }
 
   fpm::exec { $nonce:
-    cwd       => $cwd,
-    output    => $output,
-    source    => $source,
-    package   => $package,
-    version   => $version,
-    searchdir => $searchdir,
-    args      => $args,
-    require   => Fpm::Extract[$nonce],
+    cwd          => $cwd,
+    output       => $output,
+    input        => $input,
+    package      => $package,
+    version      => $version,
+    architecture => $architecture,
+    searchdir    => $searchdir,
+    args         => $args,
+    require      => Fpm::Extract[$nonce],
   }
 
 }

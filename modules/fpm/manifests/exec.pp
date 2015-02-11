@@ -1,6 +1,6 @@
 define fpm::exec(
   $output,
-  $source,
+  $input,
   $cwd          = undef,
   $searchdir    = undef,
   $package      = undef,
@@ -9,7 +9,10 @@ define fpm::exec(
   $args         = [],
 ){
 
-  $nonce = "${package}-${version}"
+  $nonce = $architecture ? {
+    undef   => "${package}-${version}",
+    default => "${package}-${version}-${architecture}",
+  }
 
   $name_part = $package ? {
     undef   => '',
@@ -32,9 +35,9 @@ define fpm::exec(
   }
 
   exec { "fpm ${nonce}":
-    path    => ['/usr/bin'],
     cwd     => $cwd,
-    command => "fpm --force -t ${output} -s ${source}${name_part}${version_part}${architecture_part}${searchdir_part}${args}",
+    path    => ['/usr/bin', '/usr/local/bin'],
+    command => "fpm -t ${output} -s ${input}${name_part}${version_part}${architecture_part}${searchdir_part}${args}",
   }
 
 }

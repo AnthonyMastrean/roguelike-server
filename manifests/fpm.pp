@@ -5,8 +5,9 @@ exec { 'apt-update':
   command => 'apt-get update',
 }
 
-exec { 'gem install bundler':
+exec { 'gem-bundler':
   path    => ['/usr/bin'],
+  command => 'gem install bundler',
   require => [
     File['/etc/gemrc'],
     Package['ruby', 'rubygems'],

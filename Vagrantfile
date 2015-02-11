@@ -12,6 +12,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define "fpm" do |node|
+    node.vm.synced_folder "downloads", "/tmp/downloads"
+    node.vm.synced_folder "packages", "/tmp/packages"
     node.vm.provision "puppet" do |puppet|
       puppet.manifests_path = "manifests"
       puppet.manifest_file = "fpm.pp"

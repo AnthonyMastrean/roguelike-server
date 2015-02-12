@@ -1,13 +1,28 @@
-exec { 'apt-get update':
-  path => ['/usr/bin'],
+Exec['apt-update'] -> Package<| |>
+
+exec { 'apt-update':
+  path    => ['/usr/bin'],
+  command => 'apt-get update',
 }
 
-Exec['apt-get update'] -> Package<| |>
-
-group { 'games':
+package { 'angband':
+  ensure => latest,
 }
 
-package { ['angband', 'crawl']:
+package { 'crawl':
+  ensure => latest,
+}
+
+package { 'adom':
+  ensure          => latest,
+  provider        => rpm,
+  source          => '/tmp/packages/adom-1.2.0_pre23-1.x86_64.rpm',
+  install_options => ['-ihv'],
+}
+
+roguelike::shell { 'adom':
+  game    => '/usr/games/adom',
+  require => Package['adom'],
 }
 
 roguelike::shell { 'angband':

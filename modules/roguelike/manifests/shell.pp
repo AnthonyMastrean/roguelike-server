@@ -15,36 +15,36 @@ define roguelike::shell(
     default => $shim,
   }
 
-  File {
-    owner => $user,
-    group => $group,
-  }
-
-  if $args {
-    file { $shim:
-      mode    => 'u+x',
-      content => "#!/bin/sh\n\n${game} ${args}\n",
-      require => File[$home],
-    }
-  }
-
   user { $user:
     gid        => $group,
     password   => $password,
     managehome => true,
     home       => $home,
     shell      => $shell,
-    require    => Group[$group],
   }
 
   file { $home:
     ensure  => directory,
+    owner   => $user,
+    group   => $group,
     require => User[$user],
   }
 
   file { $hush:
     ensure  => present,
+    owner   => $user,
+    group   => $group,
     require => File[$home],
+  }
+
+  if $args {
+    file { $shim:
+      mode    => 'u+x',
+      owner   => $user,
+      group   => $group,
+      content => "#!/bin/sh\n\n${game} ${args}\n",
+      require => File[$home],
+    }
   }
 
 }

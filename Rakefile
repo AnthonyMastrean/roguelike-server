@@ -3,6 +3,7 @@ require "rake/clean"
 CLOBBER.include("downloads/*", "packages/*.rpm")
 
 PUPPET = FileList["manifests/*.pp", "modules/**/*.pp"]
+FPMS   = FileList["modules/fpm_*"]
 
 LINT_RULES = ["--no-80chars-check", "--no-documentation-check"]
 LINT_OPTS  = ["--with-context", "--with-filename"]
@@ -14,4 +15,8 @@ task :lint, [:name] do |task, args|
 	args.with_defaults(:name => "#{PUPPET}")
   system("puppet parser validate #{args.name}") || fail()
 	system("puppet-lint --fail-on-warnings #{LINT_OPTS.join(" ")} #{LINT_RULES.join(" ")} #{args.name}") || fail()
+end
+
+task :adom do
+  system("puppet apply --modulepath=modules -e \"class{'fpm_adom':}\"") || fail()
 end

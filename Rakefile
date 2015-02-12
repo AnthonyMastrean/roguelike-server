@@ -2,7 +2,7 @@ require "rake/clean"
 
 CLOBBER.include("downloads/*", "packages/*.rpm")
 
-PUPPET     = FileList["manifests/*.pp", "modules/**/*.pp"]
+PUPPET = FileList["manifests/*.pp", "modules/**/*.pp"]
 
 LINT_RULES = ["--no-80chars-check", "--no-documentation-check"]
 LINT_OPTS  = ["--with-context", "--with-filename"]

@@ -1,22 +1,34 @@
-exec { 'apt-get update':
-  path => ['/usr/bin'],
+Exec['apt-update'] -> Package<| |>
+
+exec { 'apt-update':
+  path    => ['/usr/bin'],
+  command => 'apt-get update',
 }
 
-Exec['apt-get update'] -> Package<| |>
-
-group { 'games':
+exec { 'gem-bundler':
+  path    => ['/usr/bin'],
+  command => 'gem install bundler',
+  require => [
+    File['/etc/gemrc'],
+    Package['ruby', 'rubygems'],
+  ],
 }
 
-package { ['angband', 'crawl']:
+file { '/etc/gemrc':
+  ensure  => present,
+  owner   => root,
+  group   => root,
+  content => "gem: --no-rdoc --no-ri\n",
 }
 
-roguelike::shell { 'angband':
-  game    => '/usr/games/angband',
-  args    => '-mgcu',
-  require => Package['angband'],
-}
-
-roguelike::shell { 'crawl':
-  game    => '/usr/games/crawl',
-  require => Package['crawl'],
+package { [
+  'gcc',
+  'rpm',
+  'ruby',
+  'rubygems',
+  'ruby-dev',
+  'make',
+  'tar',
+  'wget']:
+  ensure => latest,
 }

@@ -2,8 +2,8 @@ class fpm::deps() {
 
   package { [
     'bundler',
-    'fpm', 
-    'puppet-lint', 
+    'fpm',
+    'puppet-lint',
     'rake'
   ]:
     ensure   => present,

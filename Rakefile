@@ -16,7 +16,3 @@ task :lint, [:name] do |task, args|
   system("puppet parser validate #{args.name}") || fail()
 	system("puppet-lint --fail-on-warnings #{LINT_OPTS.join(" ")} #{LINT_RULES.join(" ")} #{args.name}") || fail()
 end
-
-task :adom do
-  system("puppet apply --modulepath=modules -e \"class{'fpm_adom':}\"") || fail()
-end

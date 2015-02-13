@@ -14,10 +14,10 @@ class fpm_adom() {
   $output       = 'rpm'
   $input        = 'dir'
   $args         = [
-    ' adom=/usr/games/adom',
-    ' docs/=/usr/share/doc/adom',
-    ' licenses=/usr/share/doc/adom',
-  ]
+                    ' adom=/usr/games/adom',
+                    ' docs/=/usr/share/doc/adom',
+                    ' licenses=/usr/share/doc/adom',
+                  ]
 
   $nonce        = "${package}-${version}-${architecture}"
 

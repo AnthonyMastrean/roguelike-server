@@ -1,18 +1,18 @@
 require "rake/clean"
+require "puppet-lint/tasks/puppet-lint"
 
-CLOBBER.include("downloads/*", "packages/*.rpm")
+CLOBBER.include("**/*.tar.gz", "**/*.rpm")
 
-PUPPET = FileList["manifests/*.pp", "modules/**/*.pp"]
-FPMS   = FileList["modules/fpm_*"]
+task :default => [:validate, :lint]
 
-LINT_RULES = ["--no-80chars-check", "--no-documentation-check"]
-LINT_OPTS  = ["--with-context", "--with-filename"]
+PuppetLint::RakeTask.new :lint do |config|
+  config.pattern = ["modules", "manifests"]
+  config.disable_checks = ["documentation", "80chars"]
+  config.fail_on_warnings = true
+  config.with_context = true
+  config.fix = true
+end
 
-task :default => [:lint]
-
-desc "Check manifests & modules"
-task :lint, [:name] do |task, args|
-	args.with_defaults(:name => "#{PUPPET}")
-  system("puppet parser validate #{args.name}") || fail()
-	system("puppet-lint --fail-on-warnings #{LINT_OPTS.join(" ")} #{LINT_RULES.join(" ")} #{args.name}") || fail()
+task :validate do |task|
+  system("puppet parser validate modules manifests") || fail()
 end

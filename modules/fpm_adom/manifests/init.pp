@@ -6,6 +6,8 @@ class fpm_adom() {
   $version      = '1.2.0_pre23'
   $architecture = 'x86_64'
 
+  $nonce        = "${package}-${version}-${architecture}"
+
   $cwd          = '/tmp/packages'
   $archive      = "/tmp/downloads/${nonce}.tar.gz"
   $workingdir   = "/tmp/${nonce}"
@@ -18,8 +20,6 @@ class fpm_adom() {
                     ' docs/=/usr/share/doc/adom',
                     ' licenses=/usr/share/doc/adom',
                   ]
-
-  $nonce        = "${package}-${version}-${architecture}"
 
   file { $workingdir:
     ensure => directory,

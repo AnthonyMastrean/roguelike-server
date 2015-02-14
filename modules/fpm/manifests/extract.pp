@@ -1,13 +1,13 @@
 define fpm::extract(
-  $source,
   $target,
+  $source     = $title,
   $archive    = gzip,
   $strip_path = 0,
   $creates    = undef,
   $pathname   = undef,
 ) {
 
-  exec { "extract ${source}":
+  exec { "extract-${source}":
     path    => ['/bin'],
     command => "tar --extract --${archive} --file=${source} --directory=${target} --strip-components=${strip_path} ${pathname}",
     creates => $creates,

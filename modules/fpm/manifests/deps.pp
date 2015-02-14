@@ -1,17 +1,20 @@
 class fpm::deps() {
 
   package { [
-    'bundler',
     'fpm',
     'puppet-lint',
     'rake'
   ]:
     ensure   => present,
     provider => gem,
-    require  => File['/etc/gemrc'],
+    require  => [
+      File['/etc/gemrc'],
+      Package['rubygems'],
+    ],
   }
 
   package { [
+    'build-essential',
     'gcc',
     'make',
     'rpm',

@@ -7,6 +7,9 @@ exec { 'apt-update':
 
 Exec['apt-update'] -> Package <| |>
 
-class { 'fpm_adom':
+class { [
+  'fpm_adom',
+  'fpm_angband',
+]:
   require => Class['fpm::deps'],
 }

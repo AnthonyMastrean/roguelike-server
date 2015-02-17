@@ -2,6 +2,7 @@
 
 ssh-config
 
+*.deb
 *.rpm
 *.sublime-workspace
 *.tar.gz

@@ -7,6 +7,10 @@ exec { 'apt-update':
 
 Exec['apt-update'] -> Package <| |>
 
+Exec {
+  logoutput => on_failure,
+}
+
 class { [
   'fpm_adom',
   'fpm_angband',

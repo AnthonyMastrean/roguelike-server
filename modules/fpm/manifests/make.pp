@@ -1,32 +1,35 @@
 define fpm::make(
   $source         = $title,
   $configure      = false,
+  $label          = install,
   $configure_opts = undef,
-  $label          = undef,
   $creates        = undef,
 ) {
 
-  $configure_part = $configure ? {
-    true  => './configure',
-    false => '',
+  if $configure {
+    $make_require = Exec["configure-${source}"]
+
+    exec { "configure-${source}":
+      path    => [$source],
+      cwd     => $source,
+      command => "./configure ${configure_opts}",
+    }
   }
 
-  $make_part = $label ? {
-    undef   => 'make',
-    install => "make && make ${label}",
-    default => "make ${label}",
-  }
-
-  $command = $configure ? {
-    true  => "bash -c '${configure_part} && ${make_part}'",
-    false => $make_part,
+  if $label {
+    exec { "make-${label}-$source}":
+      path    => ['/bin', '/usr/bin'],
+      cwd     => $source,
+      command => "make ${label}",
+      require => Exec["make-${source}"],
+    }
   }
 
   exec { "make-${source}":
     path    => ['/bin', '/usr/bin'],
     cwd     => $source,
-    command => $command,
-    creates => $creates,
+    command => make,
+    require => $make_require,
   }
 
 }

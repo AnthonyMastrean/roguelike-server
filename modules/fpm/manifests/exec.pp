@@ -1,11 +1,12 @@
 define fpm::exec(
   $output,
   $input,
-  $package   = $title,
-  $args      = [],
-  $cwd       = undef,
-  $searchdir = undef,
-  $version   = undef,
+  $package      = $title,
+  $package_opts = undef,
+  $args         = undef,
+  $cwd          = undef,
+  $searchdir    = undef,
+  $version      = undef,
 ){
 
   $version_part = $version ? {
@@ -19,11 +20,10 @@ define fpm::exec(
   }
 
   # path provides: uname, rpmbuild, fpm
-  exec { "fpm-${package}":
+  exec { "fpm-${title}":
     cwd       => $cwd,
     path      => ['/bin', '/usr/bin', '/usr/local/bin'],
-    command   => "fpm -t ${output} -s ${input} --name ${package} ${version_part} ${searchdir_part} ${args}",
-    logoutput => on_failure,
+    command   => "fpm -t ${output} -s ${input} --name ${package} ${version_part} ${searchdir_part} ${package_opts} ${args}",
   }
 
 }

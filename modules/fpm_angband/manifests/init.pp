@@ -17,7 +17,7 @@ class fpm_angband() {
                       'libncursesw5-dev'
                     ]
 
-  $configure_opts = '--disable-x11 --with-no-install'
+  $configure_opts = "--disable-x11 --prefix ${installdir}"
 
   $output         = 'rpm'
   $input          = 'dir'
@@ -49,7 +49,6 @@ class fpm_angband() {
   # fpm::make { $workingdir:
   #   configure      => true,
   #   configure_opts => $configure_opts,
-  #   label          => install,
   #   creates        => $target, 
   #   require        => [Fpm::Extract[$archive], Package[$dependencies]],
   # }

@@ -1,15 +1,14 @@
 class fpm_angband() {
 
-  $url            = 'http://rephial.org/downloads/3.5/angband-v3.5.0.tar.gz'
+  $url            = 'http://rephial.org/downloads/3.5/angband-v3.5.1.tar.gz'
 
   $package        = 'angband'
-  $version        = '3.5.0'
+  $version        = '3.5.1'
 
   $archive        = "/tmp/${package}-${version}.tar.gz"
   $workingdir     = "/tmp/${package}-${version}"
   $creates        = "/tmp/${package}-${version}/version"
-  $installdir     = "/tmp/${package}-${version}/install"
-  $target         = "/tmp/${package}-${version}/install/angband"
+  $target         = '/usr/games/angband'
 
   $dependencies   = [
                       'libc6-dev',
@@ -17,10 +16,8 @@ class fpm_angband() {
                       'libncursesw5-dev'
                     ]
 
-  $configure_opts = "--disable-x11 --prefix ${installdir}"
-
-  $output         = 'rpm'
-  $input          = 'dir'
+  $configure_opts = '--disable-x11'
+  $args           = '/usr/games/angband /etc/angband /usr/share/angband'
 
   package { $dependencies:
     ensure => present,
@@ -28,11 +25,6 @@ class fpm_angband() {
 
   file { $workingdir:
     ensure => directory,
-  }
-
-  file { $installdir:
-    ensure  => directory,
-    require => Fpm::Extract[$archive],
   }
 
   fpm::fetch { $url:
@@ -46,17 +38,17 @@ class fpm_angband() {
     require    => Fpm::Fetch[$url],
   }
 
-  # fpm::make { $workingdir:
-  #   configure      => true,
-  #   configure_opts => $configure_opts,
-  #   creates        => $target, 
-  #   require        => [Fpm::Extract[$archive], Package[$dependencies]],
-  # }
+  fpm::make { $workingdir:
+    configure      => true,
+    configure_opts => $configure_opts,
+    creates        => $target, 
+    require        => [Fpm::Extract[$archive], Package[$dependencies]],
+  }
 
   # fpm::exec { $package:
   #   cwd          => '/tmp/packages',
-  #   output       => $output,
-  #   input        => $input,
+  #   output       => deb,
+  #   input        => dir,
   #   version      => $version,
   #   searchdir    => $installdir,
   #   args         => $args,

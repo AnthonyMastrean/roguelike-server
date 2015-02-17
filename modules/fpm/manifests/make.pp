@@ -9,8 +9,9 @@ define fpm::make(
   if $configure {
     $make_require = Exec["configure-${source}"]
 
+    # path provides: sed, expr
     exec { "configure-${source}":
-      path    => [$source],
+      path    => [$source, '/bin', '/usr/bin'],
       cwd     => $source,
       command => "./configure ${configure_opts}",
     }

@@ -2,6 +2,7 @@ define fpm::exec(
   $output,
   $input,
   $package      = $title,
+  $dependencies = [],
   $package_opts = undef,
   $args         = undef,
   $cwd          = undef,
@@ -14,16 +15,19 @@ define fpm::exec(
     default => "--version ${version}",
   }
 
-  $searchdir_part = $searchdir ? {
+  $search_part = $searchdir ? {
     undef   => '',
     default => "-C ${searchdir}",
   }
 
-  # path provides: uname, rpmbuild, fpm
+  $deps_part = inline_template('<%= dependencies.map{ |dep| "-d #{dep}" }.join(" ") %>')
+
+  # path provides: uname, fpm, and build tools
   exec { "fpm-${title}":
-    cwd       => $cwd,
-    path      => ['/bin', '/usr/bin', '/usr/local/bin'],
-    command   => "fpm -t ${output} -s ${input} --name ${package} ${version_part} ${searchdir_part} ${package_opts} ${args}",
+    cwd     => $cwd,
+    path    => ['/bin', '/usr/bin', '/usr/local/bin'],
+    command => "fpm -t ${output} -s ${input} --name ${package} ${version_part} ${search_part} ${deps_part} ${package_opts} ${args}",
+    # creates => "${cwd}/${package}_${version}_${architecture}.deb"
   }
 
 }

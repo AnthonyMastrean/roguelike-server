@@ -2,21 +2,22 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "hashicorp/precise64"
-  config.vm.synced_folder "packages", "/tmp/packages"
 
   config.vm.define "default" do |node|
     node.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = "manifests"
       puppet.manifest_file = "default.pp"
-      puppet.module_path = "modules"
     end
   end
 
-  config.vm.define "server" do |node|
+  config.vm.define "adom" do |node|
     node.vm.provision "puppet" do |puppet|
-      puppet.manifests_path = "manifests"
-      puppet.manifest_file = "server.pp"
-      puppet.module_path = "modules"
+      puppet.manifest_file = "adom.pp"
+    end
+  end
+
+  config.vm.define "angband" do |node|
+    node.vm.provision "puppet" do |puppet|
+      puppet.manifest_file = "angband.pp"
     end
   end
 end

@@ -1,7 +1,3 @@
-require "rake/clean"
-
-CLOBBER.include("**/*.tar.gz", "**/*.rpm")
-
 task :default => [:validate, :lint]
 
 task :validate do
